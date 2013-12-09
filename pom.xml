@@ -8,6 +8,7 @@
     <modules>
         <module>spring-jws-client</module>
         <module>spring-jws-common</module>
+        <module>spring-jws-backend</module>
     </modules>
 
     <properties>
