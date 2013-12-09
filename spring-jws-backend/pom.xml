@@ -8,4 +8,93 @@
     </parent>
     <artifactId>spring-jws-backend</artifactId>
     <packaging>war</packaging>
+
+    <properties>
+        <sign.keystore>${basedir}/sign.pfx</sign.keystore>
+        <sign.storepass>signer12</sign.storepass>
+        <sign.storetype>pkcs12</sign.storetype>
+        <sign.keypass>signer12</sign.keypass>
+        <sign.alias>signer</sign.alias>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.mojo.webstart</groupId>
+            <artifactId>webstart-jnlp-servlet</artifactId>
+            <version>1.0-6.0.02_ea_b02.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-beta-4</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>jnlp-download-servlet</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sign>
+                        <keystore>${sign.keystore}</keystore>
+                        <storepass>${sign.storepass}</storepass>
+                        <storetype>${sign.storetype}</storetype>
+                        <keypass>${sign.keypass}</keypass>
+                        <alias>${sign.alias}</alias>
+
+
+                        <dnameCn>EmbeddedTomcatWebstart</dnameCn>
+                        <dnameOu>Organisation Unit</dnameOu>
+                        <dnameO>Organisation</dnameO>
+                        <dnameL>Location</dnameL>
+                        <dnameSt>State</dnameSt>
+                        <dnameC>Country</dnameC>
+
+                        <verify>true</verify>
+
+                        <keystoreConfig>
+                            <gen>true</gen>
+                            <delete>true</delete>
+                        </keystoreConfig>
+                    </sign>
+
+
+                    <jnlpFiles>
+                        <jnlpFile>
+                            <templateFilename>launch.xml</templateFilename>
+                            <jarResources>
+                                <jarResource>
+                                    <groupId>${project.parent.groupId}</groupId>
+                                    <artifactId>spring-jws-client</artifactId>
+                                    <version>${project.parent.version}</version>
+                                    <mainClass>pl.lrozek.jws.spring.client.main.Bootstrap</mainClass>
+                                </jarResource>
+                            </jarResources>
+                        </jnlpFile>
+                    </jnlpFiles>
+                    <updateManifestEntries>
+                        <Permissions>all-permissions</Permissions>
+                        <Codebase>*</Codebase>
+                    </updateManifestEntries>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>deploy-war</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="7.0" codebase="$$codebase" href="launch.jnlp">
+    <information>
+        <title>jws-backend</title>
+        <vendor>lrozek</vendor>
+    </information>
+    <update check="always" policy="always" />
+    <security>
+        <all-permissions />
+    </security>
+    <resources>
+        $dependencies
+    </resources>
+    <application-desc main-class="$mainClass"/>
+</jnlp>
