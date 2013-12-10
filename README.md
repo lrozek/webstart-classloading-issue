@@ -1,2 +1,2 @@
-web-classloading-issue
+webstart-classloading-issue
 ======================
